@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -10,10 +11,12 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        findMinMax(Stream.of(1, 8,34, 88), Integer::compareTo, (min, max) -> {
-            System.out.printf("min: %d, max: %d", min, max);
-        });
-        System.out.println("\n");
+        Stream<Integer> stream = new ArrayList<>(Arrays.asList(14, 2, 3, 5, 8, 13, 2434)).stream();
+        findMinMax(
+                stream,
+                Comparator.naturalOrder(),
+                (x, y) -> System.out.println(String.format("min: %s, max: %s", x, y))
+        );
 
         evenNumbers(1,3, 6,8, 11, 14);
     }
@@ -22,8 +25,20 @@ public class Main {
                                       Comparator<? super T> order,
                                       BiConsumer<? super T, ? super T> minMaxConsumer) {
 
-        List<T> list = stream.sorted(order).collect(Collectors.toList());
-        minMaxConsumer.accept(list.get(0), list.get(list.size()-1));
+        List<T> arrayList = new ArrayList<>();
+        T min = null;
+        T max = null;
+        arrayList = stream
+                .sorted(order)
+                .collect(Collectors.toList());
+        if (arrayList.size() != 0) {
+            min = arrayList.get(0);
+            max = arrayList.get(arrayList.size() - 1);
+            minMaxConsumer.accept(min, max);
+            if (min == null && max == null) {
+                minMaxConsumer.accept(null, null);
+            }
+        }
     }
 
     public static void evenNumbers(Integer... n) {
