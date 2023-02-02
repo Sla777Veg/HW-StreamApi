@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
+
         Stream<Integer> stream = new ArrayList<>(Arrays.asList(14, 2, 3, 5, 8, 13, 2434)).stream();
         findMinMax(
                 stream,
@@ -24,7 +25,6 @@ public class Main {
     public static <T> void findMinMax(Stream<? extends T> stream,
                                       Comparator<? super T> order,
                                       BiConsumer<? super T, ? super T> minMaxConsumer) {
-
         List<T> arrayList = new ArrayList<>();
         T min = null;
         T max = null;
@@ -46,5 +46,4 @@ public class Main {
         List<Integer> num = numbers.stream().filter(e -> (e % 2 == 0)).toList();
         System.out.println("Количество чётных чисел: " + num.size());
     }
-
 }
